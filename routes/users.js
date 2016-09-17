@@ -39,5 +39,10 @@ router.post('/login', function(req, res, next){
     }
   })(req, res, next);
 });
+router.get('/allusers', function(req, res, next) {
+  User.find({}, function (err, res){
+    res.json(res);
+  })
+})
 
 module.exports = router;

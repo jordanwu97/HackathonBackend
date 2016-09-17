@@ -9,6 +9,8 @@ var cors = require('cors'); //cross origins
 var mongoose = require('mongoose'); //mongoose 
   requireDir('./models');
 
+mongoose.connect(process.env.MONGODB+'/hackathon');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
