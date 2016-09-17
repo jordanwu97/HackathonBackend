@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var requireDir = require('require-dir'); //require whole directory
 var cors = require('cors'); //cross origins
+app.use(cors());
 var mongoose = require('mongoose'); //mongoose
   requireDir('./models');
 
