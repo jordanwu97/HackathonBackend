@@ -4,9 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var requireDir = require('require-dir'); //require whole directory
+var cors = require('cors'); //cross origins
+var mongoose = require('mongoose'); //mongoose 
+  requireDir('./models');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+
+var passport = require('passport'); //passport
+  require('./config/passport');
 
 var app = express();
 
