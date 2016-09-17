@@ -44,6 +44,7 @@ UserSchema.methods.generateJWT = function() { //creating jwt after valid pw
   return jwt.sign({
     _id: this._id, //payload
     username: this.username,
+    group:this.group,
     exp: parseInt(exp.getTime() / 1000), //expiration time
   }, secret);
 };

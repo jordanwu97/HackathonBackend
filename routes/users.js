@@ -10,8 +10,6 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
 router.post('/register', function(req, res, next){ //handles a request of post to /register
-  console.log('yo')
-  console.log(req.user.username);
   if(!req.body.username || !req.body.password){ //check all fields are filled
     return res.status(400).json({message: 'Please fill out all fields'});
   }
@@ -43,12 +41,23 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 router.get('/allusers', auth, function(req, res, next) {
-  console.log(req.user.username);
-
-  User.find({}, function (err, user){
-    res.json(user);
-  })
+     console.log(req.user);
+      if(validateUserGroup(req.user.group)){
+        User.find({}, function (err, user){
+        res.json(user);
+      })
+    }  
+    else
+      res.json('no auth')
 })
+
+router.delete('/delete', function(req, res, next) { //wipes DB
+    User.remove({}, function(err) { 
+      console.log('collection removed');
+      res.json();
+    })
+})
+
 function validateUserGroup(group) {
     if(group == 'admin') 
       return true;
