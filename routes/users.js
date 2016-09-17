@@ -49,6 +49,12 @@ router.get('/allusers', auth, function(req, res, next) {
     res.json(user);
   })
 })
+function validateUserGroup(group) {
+    if(group == 'admin') 
+      return true;
+    else 
+      return false;
 
+}
 
 module.exports = router;
