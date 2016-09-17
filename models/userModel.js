@@ -10,9 +10,18 @@ var secret = process.env.SECRET;
 // set up a mongoose model and pass it using module.exports
 var UserSchema = new mongoose.Schema({
   username: {type: String, lowercase: true, unique: true},
+  email: String,
+  group: String,
   hash: String,
   salt: String
 });
+
+UserSchema.methods.setGroup = function (email) {
+  if(email.split("@")[1] == 'abinbev.com')
+    this.group = 'admin';
+  else
+    this.group = 'farmers';
+};
 
 UserSchema.methods.setPassword = function(password){ //creating password
   this.salt = crypto.randomBytes(16).toString('hex');
