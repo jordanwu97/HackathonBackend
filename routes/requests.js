@@ -3,8 +3,8 @@ var router = express.Router();
 var request = require('../models/request.js');
 
 /* get requests that the farmer owns. */
-router.get('/requestdatafarmer', function(req, res) {
-  var query = request.find({}).sort({'farmerusername': 'test'});
+router.post('/requestdatafarmer', function(req, res) {
+  var query = request.find({'farmerusername': req.body.farmerusername});
   query.exec(function(err, docs)
   {
     if(err)
@@ -20,9 +20,9 @@ router.get('/requestdatafarmer', function(req, res) {
 });
 
 /* get request that are owned by the agronomist */
-router.get('/requestdataagronomist', function(req, res)
+router.post('/requestdataagronomist', function(req, res)
 {
-  var query = request.find({}).sort({'agronomistusername': 'test'});
+  var query = request.find({'agronomistusername': req.body.agronomistusername});
   query.exec(function(err, docs)
   {
     if(err)
@@ -40,10 +40,11 @@ router.get('/requestdataagronomist', function(req, res)
 router.post('/newrequest', function(req, res)
 {
   console.log("farmer has made a new request");
+  console.log(req.body.agronomistusername);
   var newRequest = new request(
   {
-    agronomistusername: "davidew2",
-    farmerusername: "jordanwu",
+    agronomistusername: req.body.agronomistusername,
+    farmerusername: req.body.farmerusername,
     pictures: [],
     farmercomment: "",
     agronomistcomment: ""
