@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var requireDir = require('require-dir'); //require whole directory
 var cors = require('cors'); //cross origins
+app.use(cors());
 var mongoose = require('mongoose'); //mongoose
   requireDir('./models');
 
@@ -14,6 +15,7 @@ mongoose.connect(process.env.MONGODB+'/hackathon');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var request = require('./routes/requests');
+var imageupload = require('./routes/imageupload.js');
 
 var passport = require('passport'); //passport
   require('./config/passport');
@@ -35,6 +37,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 app.use('/request', request);
+app.use('/', imageupload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
