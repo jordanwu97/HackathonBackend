@@ -7,11 +7,13 @@ var confsecret = process.env.SECRET//require('../appconfig.js').secret; //secret
 var jwt = require('express-jwt');
 var auth = jwt({secret: confsecret, /*userProperty: 'payload'*/});
 
+var validateUserGroup = require('./validation').validateUserGroup;
+
 /* get requests that the farmer owns. */
-router.post('/requestdatafarmer', auth, function(req, res) {
-  validateUserGroup(req, res, "farmers", 
+router.get('/data_farmer', auth, function(req, res) {
+  validateUserGroup(req, res, "farmers", //callbacks for authentication
   function() {
-    var query = request.find({'farmerusername': req.body.farmerusername});
+    var query = request.find({'farmerusername': req.user.username}); //username of authenticated user
     query.exec(function(err, docs)
     {
       if(err)
@@ -28,11 +30,11 @@ router.post('/requestdatafarmer', auth, function(req, res) {
 });
 
 /* get request that are owned by the agronomist */
-router.post('/requestdataagronomist', auth, function(req, res)
+router.get('/data_agronomist', auth, function(req, res)
 {
-  validateUserGroup(req, res, "admin", 
+  validateUserGroup(req, res, "agronomists", 
   function() {
-    var query = request.find({'agronomistusername': req.user.username});
+    var query = request.find({'agronomistusername': req.user.username}); //username for agronomist pulled from awt token
     query.exec(function(err, docs)
     {
       if(err)
@@ -48,38 +50,32 @@ router.post('/requestdataagronomist', auth, function(req, res)
   })
 });
 
-router.post('/newrequest', auth, function(req, res)
+router.post('/new_request_farmer', auth, function(req, res)
 {
+  console.log(req.body);
   validateUserGroup(req, res, "farmers",   
   function() {
-    console.log("farmer has made a new request");
-    console.log(req.body.agronomistusername);
+    console.log(req.user.username+" has made a new request");
+    console.log(req.body); //get agronomist username from body
     var newRequest = new request(
     {
-      agronomistusername: req.body.agronomistusername,
-      farmerusername: req.body.farmerusername,
+      agronomistusername: req.body.agronomistusername, //set agronomistusername for this request
+      farmerusername: req.user.username, //set farmerusername as username from pulled from jwt
       pictures: [],
-      farmercomment: "",
+      farmercomment: req.body.comment,
       agronomistcomment: ""
     });
+    // console.log(newRequest);
     newRequest.save(function(err, entry)
     {
       if(err)
       {
         throw err;
       }
-      console.log("new entry received");
+      // console.log(entry);
       res.json(entry);
     });
   })
 });
-
-function validateUserGroup(req, res, auth_group, callback) {
-  console.log(req.user.group)
-    if(req.user.group == auth_group) 
-      callback();
-    else 
-      res.json("no auth");
-}
 
 module.exports = router;

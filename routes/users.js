@@ -9,6 +9,8 @@ var auth = jwt({secret: confsecret, /*userProperty: 'payload'*/});
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
+var validateUserGroup = require('./validation').validateUserGroup;
+
 router.post('/register', function(req, res, next){ //handles a request of post to /register
   if(!req.body.username || !req.body.password){ //check all fields are filled
     return res.status(400).json({message: 'Please fill out all fields'});
@@ -40,34 +42,22 @@ router.post('/login', function(req, res, next){
     }
   })(req, res, next);
 });
-router.get('/allusers', auth, function(req, res, next) {
+router.get('/allusers', auth, function(req, res, next) { //get all user
       console.log(req.user);
-      if(validateUserGroup(req.user.group, "admin")){ //validate user group
+      validateUserGroup(req, res, "admin", function() { //validate user as admin
         User.find({}, function (err, user){
         res.json(user);
         })
-      }  
-      else
-        res.json('no auth')
+      })
 })
 
 router.delete('/delete', auth, function(req, res, next) { //wipes DB
-    if(validateUserGroup(req.user.group, "admin")) {
+    validateUserGroup(req, res, "admin", function() { //validate user as admin
       User.remove({}, function(err) { 
         console.log('collection removed');
         res.json();
       })
-    }
-    else
-      res.json('no auth')
+    })
 })
-
-function validateUserGroup(reqgroup, group) {
-    if(reqgroup == group) 
-      return true;
-    else 
-      return false;
-
-}
 
 module.exports = router;

@@ -18,7 +18,7 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.methods.setGroup = function (email) {
   if(email.split("@")[1] == 'abinbev.com')
-    this.group = 'admin';
+    this.group = 'agronomists';
   else
     this.group = 'farmers';
 };
