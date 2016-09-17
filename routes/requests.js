@@ -37,4 +37,26 @@ router.get('/requestdataagronomist', function(req, res)
   });
 });
 
+router.post('/newrequest', function(req, res)
+{
+  console.log("farmer has made a new request");
+  var newRequest = new request(
+  {
+    agronomistusername: "davidew2",
+    farmerusername: "jordanwu",
+    pictures: [],
+    farmercomment: "",
+    agronomistcomment: ""
+  });
+  newRequest.save(function(err, entry)
+  {
+    if(err)
+    {
+      throw err;
+    }
+    console.log("new entry received");
+    res.json(entry);
+  });
+});
+
 module.exports = router;
