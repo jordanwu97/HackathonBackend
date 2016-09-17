@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var requireDir = require('require-dir'); //require whole directory
 var cors = require('cors'); //cross origins
-app.use(cors());
 var mongoose = require('mongoose'); //mongoose
   requireDir('./models');
 
@@ -21,6 +20,7 @@ var passport = require('passport'); //passport
   require('./config/passport');
 
 var app = express();
+app.use(cors());// use cors
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

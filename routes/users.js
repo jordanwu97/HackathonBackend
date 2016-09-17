@@ -41,25 +41,29 @@ router.post('/login', function(req, res, next){
   })(req, res, next);
 });
 router.get('/allusers', auth, function(req, res, next) {
-     console.log(req.user);
-      if(validateUserGroup(req.user.group)){
+      console.log(req.user);
+      if(validateUserGroup(req.user.group, "admin")){ //validate user group
         User.find({}, function (err, user){
         res.json(user);
+        })
+      }  
+      else
+        res.json('no auth')
+})
+
+router.delete('/delete', auth, function(req, res, next) { //wipes DB
+    if(validateUserGroup(req.user.group, "admin")) {
+      User.remove({}, function(err) { 
+        console.log('collection removed');
+        res.json();
       })
-    }  
+    }
     else
       res.json('no auth')
 })
 
-router.delete('/delete', function(req, res, next) { //wipes DB
-    User.remove({}, function(err) { 
-      console.log('collection removed');
-      res.json();
-    })
-})
-
-function validateUserGroup(group) {
-    if(group == 'admin') 
+function validateUserGroup(reqgroup, group) {
+    if(reqgroup == group) 
       return true;
     else 
       return false;
