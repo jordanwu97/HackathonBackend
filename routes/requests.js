@@ -43,7 +43,7 @@ router.get('/data_agronomist', auth, function(req, res)
       }
       else
       {
-        console.log("agronomist's data retrieved")
+        console.log("agronomist's data retrieved");
         res.json(docs);
       }
     })
