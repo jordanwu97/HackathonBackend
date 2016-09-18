@@ -32,7 +32,7 @@ router.get('/data_farmer', auth, function(req, res) {
 /* get request that are owned by the agronomist */
 router.get('/data_agronomist', auth, function(req, res)
 {
-  validateUserGroup(req, res, "agronomists", 
+  validateUserGroup(req, res, "agronomists",
   function() {
     var query = request.find({'agronomistusername': req.user.username}); //username for agronomist pulled from awt token
     query.exec(function(err, docs)
@@ -53,7 +53,7 @@ router.get('/data_agronomist', auth, function(req, res)
 router.post('/new_request_farmer', auth, function(req, res)
 {
   console.log(req.body);
-  validateUserGroup(req, res, "farmers",   
+  validateUserGroup(req, res, "farmers",
   function() {
     console.log(req.user.username+" has made a new request");
     console.log(req.body); //get agronomist username from body
@@ -63,7 +63,8 @@ router.post('/new_request_farmer', auth, function(req, res)
       farmerusername: req.user.username, //set farmerusername as username from pulled from jwt
       pictures: [],
       farmercomment: req.body.comment,
-      agronomistcomment: ""
+      agronomistcomment: "",
+      title: ""
     });
     // console.log(newRequest);
     newRequest.save(function(err, entry)
