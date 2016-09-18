@@ -18,19 +18,21 @@ router.post('/imageupload', auth, function(req, res, next) {
     //console.log(req.body.hello);
     console.log(req.body);
     var bitmap = new Buffer(base64string, 'base64');
-    var directory = 'public/images/' + req.body.inforequestid + '/'; 
+    var directory = 'public/images/' + req.user.username+ '/'; 
 
     if(!fs.existsSync(directory)){
       fs.mkdirSync(directory);
     }
     
-    fs.writeFileSync(directory+'1.jpg' , bitmap);
+    fs.writeFileSync(directory + req.body.inforequestid +'.jpg' , bitmap);
     
     res.json('success');
   })
 });
-router.get('/image', function(req,res,next) {
-  res.sendfile(path.resolve('./public/images/14/1.jpg'));
-})
+
+
+router.get('/image/:farmer/:pic_id', function(req,res,next) {
+  res.sendFile(path.resolve('./public/images/'+req.params.farmer+'/'+req.params.pic_id+'.jpg'));
+}) //sendfile through ajax
 
 module.exports = router;
