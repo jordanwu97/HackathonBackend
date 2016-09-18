@@ -1,4 +1,5 @@
 var express = require('express');
+var path = require('path');
 var fs = require('fs');
 var router = express.Router();
 
@@ -28,5 +29,8 @@ router.post('/imageupload', auth, function(req, res, next) {
     res.json('success');
   })
 });
+router.get('/image', function(req,res,next) {
+  res.sendfile(path.resolve('./public/images/14/1.jpg'));
+})
 
 module.exports = router;
