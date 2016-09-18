@@ -14,6 +14,7 @@ var IOT = mongoose.model('IOT');
 router.post('/iot', function(req, res, next)
 {
   obj = {
+        unique_id: req.body.ID,
         month: req.body.month,
         time: req.body.time,
         temperature: req.body.temperature,
@@ -22,9 +23,8 @@ router.post('/iot', function(req, res, next)
   var iotSchema = new IOT(obj);
   iotSchema.save(function(err) {
       if(err){ return next(err); }
-    }
-  );
-  res.json(obj)
+      res.json(obj);
+    });
 });
 
 router.get('/iot', function(req, res, next) {
