@@ -50,6 +50,52 @@ router.get('/data_agronomist', auth, function(req, res)
   })
 });
 
+router.get('/data', auth, function(req, res)
+{
+  switchUserGroup(req, res,
+  function() {
+    var query = request.find({'agronomistusername': req.user.username}); //username for agronomist pulled from awt token
+    query.exec(function(err, docs)
+    {
+      if(err)
+      {
+        throw err;
+      }
+      else
+      {
+        console.log("agronomist's data retrieved");
+        res.json(docs);
+      }
+    })
+  },
+  function() {
+    var query = request.find({'farmerusername': req.user.username}); //username of authenticated user
+    query.exec(function(err, docs)
+    {
+      if(err)
+      {
+        throw err;
+      }
+      else
+      {
+        console.log("farmer's data retrieved for farmer");
+        res.json(docs);
+      }
+    });
+  }
+  )
+});
+
+function switchUserGroup(req, res, farmer_callback, agronomist_callback) { //validaton function
+    if(req.user.group == 'agronomists')
+      farmer_callback();
+    else if (req.user.group == 'farmers')
+      agronomist_callback();
+    else
+      res.json("no auth");
+}
+
+
 router.post('/new_request_farmer', auth, function(req, res)
 {
   console.log(req.body);
