@@ -25,7 +25,7 @@ router.post('/imageupload', auth, function(req, res, next) {
     
     fs.writeFileSync(directory+'1.jpg' , bitmap);
     
-    res.json(req);
+    res.json('success');
   })
 });
 
