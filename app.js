@@ -39,7 +39,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/requests', request);
 app.use('/', imageupload);
-app.use('/iot', iot);
+app.use('/', iot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
