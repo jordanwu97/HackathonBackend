@@ -55,7 +55,7 @@ router.get('/data', auth, function(req, res)
 {
   switchUserGroup(req, res,
   function() {
-    var query = request.find({'agronomistusername': req.user.username}); //username for agronomist pulled from awt token
+    var query = request.find(); //username for agronomist pulled from awt token
     query.exec(function(err, docs)
     {
       if(err)
