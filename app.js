@@ -20,7 +20,7 @@ var passport = require('passport'); //passport
   require('./config/passport');
 
 var app = express();
-// app.use(cors());// use cors
+app.use(cors());// use cors
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
