@@ -3,7 +3,8 @@ module.exports = Jimp;
 var Jimp = require("jimp");
 
 // open a file called "lenna.png"
-Jimp.read("barley.jpg", function (err, image) {
+console.log(process.argv[2]);
+Jimp.read( process.argv[2], function (err, image) {
     if (err) throw err;
     var numGreenPixels = 0;
     var numBrownPixels = 0;
@@ -16,6 +17,7 @@ Jimp.read("barley.jpg", function (err, image) {
         var green = this.bitmap.data[ idx + 1 ];
         var blue  = this.bitmap.data[ idx + 2 ];
         var alpha = this.bitmap.data[ idx + 3 ];
+        console.log(red + ", " + green + ", " + blue + ", " + alpha);
         if(red < 60 && green < 60 && blue < 60){
             // if the pixel is black
         }
@@ -28,5 +30,5 @@ Jimp.read("barley.jpg", function (err, image) {
         // rgba values run from 0 - 255
         // e.g. this.bitmap.data[idx] = 0; // removes red from this pixel
     });
-    console.log(numBrownPixels/(numGreenPixels+numBrownPixels));
+    console.log('Percentage: ' + numBrownPixels/(numGreenPixels+numBrownPixels)*100 + "%");
 });
