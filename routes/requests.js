@@ -110,7 +110,7 @@ router.post('/new_request_farmer', auth, function(req, res)
       pictures: [],
       farmercomment: req.body.comment,
       agronomistcomment: "",
-      title: ""
+      title: req.body.title
     });
     // console.log(newRequest);
     newRequest.save(function(err, entry)
