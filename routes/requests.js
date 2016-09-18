@@ -96,36 +96,6 @@ function switchUserGroup(req, res, farmer_callback, agronomist_callback) { //val
       res.json("no auth");
 }
 
-
-// router.post('/new_request_farmer', auth, function(req, res)
-// {
-//   console.log(req.body);
-//   validateUserGroup(req, res, "farmers",
-//   function() {
-//     console.log(req.user.username+" has made a new request");
-//     console.log(req.body); //get agronomist username from body
-//     var newRequest = new request(
-//     {
-//       agronomistusername: req.body.agronomistusername, //set agronomistusername for this request
-//       farmerusername: req.user.username, //set farmerusername as username from pulled from jwt
-//       pictures: [],
-//       farmercomment: req.body.comment,
-//       agronomistcomment: "",
-//       title: req.body.title
-//     });
-//     // console.log(newRequest);
-//     newRequest.save(function(err, entry)
-//     {
-//       if(err)
-//       {
-//         throw err;
-//       }
-//       // console.log(entry);
-//       res.json(entry);
-//     });
-//   })
-// });
-
 router.post('/new_request_farmer', auth, function(req, res)
 {
   console.log(req.body);
@@ -171,11 +141,20 @@ router.post('/new_request_farmer', auth, function(req, res)
           console.log('yo');
         }
         fs.writeFileSync(directory + i +'.jpg' , bitmap);
-        res.json(entry);
+        return res.json('success');
         
       }
     });
   })
 });
+
+router.delete('/requests', auth, function(req, res, next) { //wipes DB
+    validateUserGroup(req, res, "admin", function() { //validate user as admin
+      request.remove({}, function(err) { 
+        console.log('collection removed');
+        res.json('collection removed');
+      })
+    })
+})
 
 module.exports = router;
