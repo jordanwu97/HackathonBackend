@@ -15,6 +15,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var request = require('./routes/requests');
 var imageupload = require('./routes/imageupload.js');
+var iot = require('./routes/iotdrop.js');
 
 var passport = require('passport'); //passport
   require('./config/passport');
@@ -38,6 +39,7 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/requests', request);
 app.use('/', imageupload);
+app.use('/iot', iot);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

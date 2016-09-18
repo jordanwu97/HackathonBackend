@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var request = require('../models/request.js');
+var request = require('../models/requestModel.js');
 
 var passport = require('passport');
 var confsecret = process.env.SECRET//require('../appconfig.js').secret; //secret, will change to use env.var
