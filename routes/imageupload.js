@@ -14,8 +14,7 @@ var validateUserGroup = require('./validation').validateUserGroup;
 router.post('/imageupload', auth, function(req, res, next) {
   validateUserGroup(req, res, "farmers",function() {
     var base64string = req.body.pictures.data;
-    //console.log(base64string);
-    //console.log(req.body.hello);
+
     console.log(req.body);
     var bitmap = new Buffer(base64string, 'base64');
     var directory = 'public/images/' + req.user.username+ '/'; 
@@ -26,7 +25,7 @@ router.post('/imageupload', auth, function(req, res, next) {
     
     fs.writeFileSync(directory + req.body.inforequestid +'.jpg' , bitmap);
     
-    res.json('success');
+    res.json(directory + req.body.inforequestid +'.jpg');
   })
 });
 
