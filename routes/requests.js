@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 var request = require('../models/requestModel.js');
 
 var passport = require('passport');
@@ -96,60 +97,83 @@ function switchUserGroup(req, res, farmer_callback, agronomist_callback) { //val
 }
 
 
-router.post('/new_request_farmer', auth, function(req, res)
-{
-  console.log(req.body);
-  validateUserGroup(req, res, "farmers",
-  function() {
-    console.log(req.user.username+" has made a new request");
-    console.log(req.body); //get agronomist username from body
-    var newRequest = new request(
-    {
-      agronomistusername: req.body.agronomistusername, //set agronomistusername for this request
-      farmerusername: req.user.username, //set farmerusername as username from pulled from jwt
-      pictures: [],
-      farmercomment: req.body.comment,
-      agronomistcomment: "",
-      title: req.body.title
-    });
-    // console.log(newRequest);
-    newRequest.save(function(err, entry)
-    {
-      if(err)
-      {
-        throw err;
-      }
-      // console.log(entry);
-      res.json(entry);
-    });
-  })
-});
+// router.post('/new_request_farmer', auth, function(req, res)
+// {
+//   console.log(req.body);
+//   validateUserGroup(req, res, "farmers",
+//   function() {
+//     console.log(req.user.username+" has made a new request");
+//     console.log(req.body); //get agronomist username from body
+//     var newRequest = new request(
+//     {
+//       agronomistusername: req.body.agronomistusername, //set agronomistusername for this request
+//       farmerusername: req.user.username, //set farmerusername as username from pulled from jwt
+//       pictures: [],
+//       farmercomment: req.body.comment,
+//       agronomistcomment: "",
+//       title: req.body.title
+//     });
+//     // console.log(newRequest);
+//     newRequest.save(function(err, entry)
+//     {
+//       if(err)
+//       {
+//         throw err;
+//       }
+//       // console.log(entry);
+//       res.json(entry);
+//     });
+//   })
+// });
 
 router.post('/new_request_farmer', auth, function(req, res)
 {
   console.log(req.body);
+  // req.body.pictures = [{
+  //       data: "some data",
+  //       comment: "some comment"
+  //     }];
   validateUserGroup(req, res, "farmers",
   function() {
     console.log(req.user.username+" has made a new request");
     console.log(req.body); //get agronomist username from body
+    var l = [];
+    for(var j = 0; j<req.body.pictures.length; j++) {
+        l.push(req.body.pictures[j].description);
+    }
+    console.log(l);
     var newRequest = new request(
     {
       agronomistusername: req.body.agronomistusername, //set agronomistusername for this request
       farmerusername: req.user.username, //set farmerusername as username from pulled from jwt
-      pictures: [],
-      farmercomment: req.body.comment,
+      pictures: l,
+      farmercomment: req.body.farmercomment,
       agronomistcomment: "",
       title: req.body.title
     });
     // console.log(newRequest);
     newRequest.save(function(err, entry)
     {
-      if(err)
-      {
-        throw err;
+      var id = entry.id;
+      console.log(req.body.pictures.length);
+
+      // console.log(entry.id);
+      for (var i = 0;  i < req.body.pictures.length; i++) {
+        var base64string = req.body.pictures[i].data;
+
+        var bitmap = new Buffer(base64string, 'base64');
+        // console.log('133');
+        var directory = 'public/images/' + req.user.username + '/' + entry.id + '/'; 
+        // console.log(directory)
+
+        if(!fs.existsSync(directory)){
+          fs.mkdirSync(directory);
+          console.log('yo');
+        }
+        fs.writeFileSync(directory + i +'.jpg' , bitmap);
+        res.json(entry);
+        
       }
-      // console.log(entry);
-      res.json(entry);
     });
   })
 });
