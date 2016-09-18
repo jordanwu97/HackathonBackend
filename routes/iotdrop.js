@@ -15,8 +15,14 @@ router.post('/iot', function(req, res, next)
 {
   obj = {
         unique_id: req.body.ID,
-        month: req.body.month,
-        time: req.body.time,
+        time: {
+          month : req.body.month,
+          day : req.body.day,
+          year : req.body.year,
+          hour : req.body.hour,
+          minute : req.body.minute,
+          second : req.body.second,
+        },
         temperature: req.body.temperature,
         humidity: req.body.humidity
   }
@@ -34,6 +40,15 @@ router.get('/iot', function(req, res, next) {
     else
       return res.json(iotData)
   })
+})
+
+router.delete('/iot', auth, function(req, res, next) { //wipes DB
+    validateUserGroup(req, res, "admin", function() { //validate user as admin
+      IOT.remove({}, function(err) { 
+        console.log('collection removed');
+        res.json('collection removed');
+      })
+    })
 })
 
 module.exports = router;

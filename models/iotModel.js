@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 var IotSchema = new mongoose.Schema(
 {
     unique_id: String,
-    month: Number,
-    time: Date,
+    time: {},
     temperature: Number,
     humidity: Number
 });
