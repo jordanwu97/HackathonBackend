@@ -141,9 +141,9 @@ router.post('/new_request_farmer', auth, function(req, res)
           console.log('yo');
         }
         fs.writeFileSync(directory + i +'.jpg' , bitmap);
-        return res.json('success');
         
       }
+      return res.json('success');
     });
   })
 });
