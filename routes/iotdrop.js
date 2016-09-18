@@ -11,7 +11,7 @@ var validateUserGroup = require('./validation').validateUserGroup;
 var mongoose = require('mongoose');
 var IOT = mongoose.model('IOT');
 
-router.post('/iot', function(req, res)
+router.post('/iot', function(req, res, next)
 {
   obj = {
         month: req.body.month,
@@ -19,8 +19,21 @@ router.post('/iot', function(req, res)
         temperature: req.body.temperature,
         humidity: req.body.humidity
   }
-  console.log(obj);
-  res.json(obj);
+  var iotSchema = new IOT(obj);
+  iotSchema.save(function(err) {
+      if(err){ return next(err); }
+    }
+  );
+  res.json(obj)
 });
+
+router.get('/iot', function(req, res, next) {
+  IOT.find().exec(function(err, iotData) {
+    if(err) 
+      return next(err)
+    else
+      return res.json(iotData)
+  })
+})
 
 module.exports = router;

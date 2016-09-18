@@ -1,3 +1,5 @@
+module.exports = Jimp;
+
 var Jimp = require("jimp");
 
 // open a file called "lenna.png"

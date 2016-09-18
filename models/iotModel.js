@@ -2,9 +2,11 @@ var mongoose = require('mongoose');
 
 var IotSchema = new mongoose.Schema(
 {
-  iot_id: String,
-  temperature: Number,
-  humidity: Number,
+    unique_id: String,
+    month: Number,
+    time: Date,
+    temperature: Number,
+    humidity: Number
 });
 
 module.exports = mongoose.model('IOT', IotSchema);
