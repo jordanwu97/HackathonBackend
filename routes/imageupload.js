@@ -13,19 +13,23 @@ var validateUserGroup = require('./validation').validateUserGroup;
 /* GET home page. */
 router.post('/imageupload', auth, function(req, res, next) {
   validateUserGroup(req, res, "farmers",function() {
-    var base64string = req.body.pictures.data;
 
-    console.log(req.body);
-    var bitmap = new Buffer(base64string, 'base64');
-    var directory = 'public/images/' + req.user.username+ '/'; 
+    for (var i = 0;  i < req.body.pictures.length; i++) {
+      var base64string = req.body.pictures[i].data;
 
-    if(!fs.existsSync(directory)){
-      fs.mkdirSync(directory);
+      console.log(req.body);
+      var bitmap = new Buffer(base64string, 'base64');
+      var directory = 'public/images/' + req.user.username + '/'; 
+      console.log(directory)
+
+      if(!fs.existsSync(directory)){
+        fs.mkdirSync(directory);
+      }
+      fs.writeFileSync(directory + i +'.jpg' , bitmap);
     }
     
-    fs.writeFileSync(directory + req.body.inforequestid +'.jpg' , bitmap);
-    
-    res.json(directory + req.body.inforequestid +'.jpg');
+    // res.json(directory + req.body.inforequestid +'.jpg');
+    res.json('success');
   })
 });
 
