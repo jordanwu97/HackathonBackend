@@ -10,7 +10,7 @@ function($scope, $http, $location, login, $rootScope)
   $($("#nav").children().children()[1]).addClass("current");
   $scope.requests = [];
 
-  $http.get(/*"http://hackathonbackend-dev.us-east-1.elasticbeanstalk.com*/'/requests/data', {
+  $http.get('/requests/data', {
     headers:
     {
       "Authorization": "bearer " + login.jwt_token,
@@ -29,14 +29,6 @@ function($scope, $http, $location, login, $rootScope)
     $rootScope.$broadcast("sent-request", { index: num });
     $location.path('/viewrequest');
   }
-  //
-  // $http.get('http://localhost:3000/posts.json', {
-  //     headers: {
-  //         "Authorization": 'Token token="1111"'
-  //     }
-  //   }).success(function(response){
-  //     console.log(response)
-  //   });
 
 }])
 .controller('viewRequest', ['$scope', '$http', '$location', 'login',
@@ -59,15 +51,4 @@ function($scope, $http, $location, login)
     $scope.request = (response[index]);
     console.log($scope.request._id);
   });
-  // console.log("hello I am viewing request");
-  // // $scope.requests.pictures = [];
-  // $scope.$watch('login.username', function() {
-  //       $scope.usrname = login.username;
-  //   });
-  // // $scope.usrname = login.username;
-
-
-
-  // console.log($($("nav").children()[2]).addClass("current"));
-  // $("#nav").children()[0].children()[1].addClass("current");
 }]);

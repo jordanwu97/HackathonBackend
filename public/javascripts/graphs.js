@@ -14,7 +14,7 @@
 	      var temperature = [];
 	      var soil = [];
 
-	     var url = /*'http://hackathonbackend-dev.us-east-1.elasticbeanstalk.com*/'/iot';
+	     var url = '/iot';
 	      var data = null;
 	      $(document).ready(function() {
 		      $.getJSON(url, function(json_data){

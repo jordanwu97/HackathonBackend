@@ -4,12 +4,13 @@ app.factory('login', ['$http', function($http){ //create a factory "stores" that
 // will hold the variable stores, as well as http functions
   var user = {}
 //http post for login
-  user.login = function(name, pwd, callback) {
+  user.login = function(name, pwd, callback, callback2) {
       body = {
           username : name,
           password : pwd
       }
-      $http.post(/*'http://hackathonbackend-dev.us-east-1.elasticbeanstalk.com*/'/users/login', body).then(function(data) {
+      $http.post('/users/login', body).then(function(data) {
+            // console.log(data.data.message);
             user.jwt_token = data.data.token;
             user.username = body.username;
             console.log(user.jwt_token);
@@ -54,18 +55,8 @@ app.controller('loginCtrl', ['$scope', '$http', 'login', '$location',
     $scope.submitlogin = function() {
         login.login($scope.loginForm.username, $scope.loginForm.password, function(){
             $scope.login = login;
-            // console.log(login.jwt_token);
             console.log(login.userIsLoggedIn());
             $location.path('/requests');
-            // if(login.userIsLoggedIn())
-            // {
-            //   $location.path('/requests');
-            // }
-            // else
-            // {//THIS ELSE IS NEVER CALLLEEEEEEEDDDDDDDDDDDDDDDDDDDDDD
-            //   $scope.errorMessage = "Authentication error, username or password is incorrect";
-            //   $scope.$apply();
-            // }
         });
         $scope.errorMessage = "Incorrect username/password";
     }
