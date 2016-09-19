@@ -1,0 +1,27 @@
+#header
+{
+  background: url("../../images/upfeathers.png") repeat 0 0;
+}
+
+.request-btn
+{
+  min-width: 300px;
+  margin: 10px;
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+ul
+{
+  overflow:hidden;
+}
+li
+{
+  float:left;
+}
+li.login
+{
+  float:right;
+  margin-right: 10px;
+}

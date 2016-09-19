@@ -1,0 +1,48 @@
+<!-- Main -->
+	<section class="wrapper style1">
+		<div class="container">
+			<div class="row 200%">
+				<div class="4u 12u(narrower)">
+					<div id="sidebar">
+
+						<!-- Sidebar -->
+
+							<section>
+
+								<p>Create your requests here to send to the Agronomist in your area.</p>
+								<footer>
+									<a href="#/makerequest" class="button">Create Request</a>
+								</footer>
+							</section>
+
+							<section>
+
+								</ul>
+								<footer>
+
+								</footer>
+							</section>
+
+					</div>
+				</div>
+				<div class="8u  12u(narrower) important(narrower)">
+					<div id="content">
+
+						<!-- Content -->
+
+							<article>
+								<header>
+									<h2>Current Requests</h2>
+									<div ng-repeat="request in requests">
+										<a ng-click="viewrequest($index)" class = "button request-btn">{{request.title}}<span style="float:right;">{{request.farmerusername}}</span><br><br>{{request.farmercomment}}</a>
+									</div>
+								</header>
+
+
+							</article>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>

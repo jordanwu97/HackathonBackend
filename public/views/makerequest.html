@@ -1,0 +1,25 @@
+<section style="padding: 10px">
+
+  <h2><a href="#/requests" style="margin: 10px; border: 1px solid lightgray; padding: 0px 5px 5px 5px;border-radius: 5px">&larr;</a>Submit Request</h2>
+	<div >{{ errorMessage }}</div>
+	<form class="form" ng-submit="submitrequest()">
+		<div class="form-group">
+			<label>Title</label>
+			<input type="text" class="form-control" name="username" ng-model="requestForm.title" required>
+		</div>
+		<div class="form-group">
+			<label>Comment/Description</label>
+			<input type="text" class="form-control" name="password" ng-model="requestForm.comment" required>
+		</div>
+    <div class="form-group">
+      <label>Images</label>
+      Underside - <input type="file" name="filename" ng-model="requestForm.image1"  accept="image/gif, image/jpeg, image/png"><br>
+      Topside - <input type="file" name="filename" ng-model="requestForm.image2" accept="image/gif, image/jpeg, image/png"><br>
+      Extra - <input type="file" name="filename" ng-model="requestForm.image3" accept="image/gif, image/jpeg, image/png"><br>
+      Extra - <input type="file" name="filename" ng-model="requestForm.image4" accept="image/gif, image/jpeg, image/png">
+    </div>
+		<div style="margin-top: 20px">
+			<button type="submit" class="button" ng-disabled="disabled">Submit Request</button>
+		</div>
+	</form>
+</section>
